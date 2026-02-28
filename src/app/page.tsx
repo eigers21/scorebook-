@@ -281,49 +281,55 @@ export default function HomePage() {
           </div>
 
           {/* 打順ヘッダー */}
-          <p className="text-xs font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-xs font-semibold mb-3" style={{ color: 'var(--text-secondary)' }}>
             自チーム打順・選手登録
           </p>
-          <div className="flex items-center gap-2 mb-2 px-1">
-            <span className="text-[10px] w-5" style={{ color: 'var(--text-muted)' }}>打順</span>
-            <span className="text-[10px] flex-1" style={{ color: 'var(--text-muted)' }}>選手名</span>
-            <span className="text-[10px] w-14 text-center" style={{ color: 'var(--text-muted)' }}>背番号</span>
-            <span className="text-[10px] w-16 text-center" style={{ color: 'var(--text-muted)' }}>守備</span>
-          </div>
 
           {/* 選手フォーム */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             {myPlayers.map((p, i) => (
-              <div key={p.id} className="flex items-center gap-2">
-                <span className="text-xs font-bold w-5 text-center" style={{ color: 'var(--text-muted)' }}>
-                  {i + 1}
-                </span>
-                <input
-                  type="text"
-                  placeholder="選手名"
-                  value={p.name}
-                  onChange={e => updatePlayer(i, 'name', e.target.value)}
-                  className="input-field flex-1"
-                  style={{ padding: '8px 10px', fontSize: '13px' }}
-                />
-                <input
-                  type="number"
-                  placeholder="#"
-                  value={p.number}
-                  onChange={e => updatePlayer(i, 'number', e.target.value)}
-                  className="input-field w-14 text-center"
-                  style={{ padding: '8px 4px', fontSize: '13px' }}
-                />
-                <select
-                  value={p.position}
-                  onChange={e => updatePlayer(i, 'position', e.target.value as Position)}
-                  className="input-field w-16 text-center"
-                  style={{ padding: '8px 2px', fontSize: '12px' }}
-                >
-                  {positions.map(pos => (
-                    <option key={pos.value} value={pos.value}>{pos.label}</option>
-                  ))}
-                </select>
+              <div key={p.id} className="rounded-xl p-3" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-color)' }}>
+                {/* 1段目: 打順 + 選手名 */}
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full" style={{ background: 'var(--accent-blue)', color: 'white', flexShrink: 0 }}>
+                    {i + 1}
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="選手名を入力"
+                    value={p.name}
+                    onChange={e => updatePlayer(i, 'name', e.target.value)}
+                    className="input-field flex-1"
+                    style={{ padding: '10px 12px', fontSize: '15px' }}
+                  />
+                </div>
+                {/* 2段目: 背番号 + 守備位置 */}
+                <div className="flex items-center gap-2 ml-8">
+                  <div className="flex items-center gap-1">
+                    <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>背番号</span>
+                    <input
+                      type="number"
+                      placeholder="#"
+                      value={p.number}
+                      onChange={e => updatePlayer(i, 'number', e.target.value)}
+                      className="input-field w-16 text-center"
+                      style={{ padding: '6px 4px', fontSize: '13px' }}
+                    />
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>守備</span>
+                    <select
+                      value={p.position}
+                      onChange={e => updatePlayer(i, 'position', e.target.value as Position)}
+                      className="input-field w-20 text-center"
+                      style={{ padding: '6px 4px', fontSize: '13px' }}
+                    >
+                      {positions.map(pos => (
+                        <option key={pos.value} value={pos.value}>{pos.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
               </div>
             ))}
             {/* 選手追加ボタン */}
