@@ -176,6 +176,21 @@ export default function GamePage({ params }: { params: Promise<{ id: string }> }
             submitPlateAppearance(result, movements, rbiList);
             return;
         }
+        if (result.category === 'error' || result.category === 'fielders_choice' || result.category === 'interference') {
+            // エラー等は全走者を1つ進める（同じ塁での上書き消滅を防ぐ簡易対応）
+            if (gameState.runners.third) {
+                movements.push({ runnerId: gameState.runners.third, fromBase: 'third', toBase: 'score', reason: 'error' });
+            }
+            if (gameState.runners.second) {
+                movements.push({ runnerId: gameState.runners.second, fromBase: 'second', toBase: 'third', reason: 'error' });
+            }
+            if (gameState.runners.first) {
+                movements.push({ runnerId: gameState.runners.first, fromBase: 'first', toBase: 'second', reason: 'error' });
+            }
+            submitPlateAppearance(result, movements, rbiList);
+            return;
+        }
+
         submitPlateAppearance(result, movements, rbiList);
     }
 
