@@ -27,6 +27,7 @@ import PlateAppearanceInput from '@/components/PlateAppearanceInput';
 import Scoreboard from '@/components/Scoreboard';
 import EventLog from '@/components/EventLog';
 import ConfirmModal from '@/components/ConfirmModal';
+import ScoreSheet from '@/components/ScoreSheet';
 
 /** ページコンポーネント */
 export default function GamePage({ params }: { params: Promise<{ id: string }> }) {
@@ -36,6 +37,7 @@ export default function GamePage({ params }: { params: Promise<{ id: string }> }
     const [gameState, setGameState] = useState<GameState | null>(null);
     const [showPAInput, setShowPAInput] = useState(false);
     const [showStats, setShowStats] = useState(false);
+    const [showScoreSheet, setShowScoreSheet] = useState(false);
     const [showOpponentScore, setShowOpponentScore] = useState(false);
     const [opponentInningScore, setOpponentInningScore] = useState('');
     const [opponentInningIdx, setOpponentInningIdx] = useState(0);
@@ -415,6 +417,13 @@ export default function GamePage({ params }: { params: Promise<{ id: string }> }
                         {showStats ? '記録' : '成績'}
                     </button>
                     <button
+                        onClick={() => setShowScoreSheet(true)}
+                        className="text-xs px-3 py-2 rounded-lg font-bold"
+                        style={{ background: 'rgba(34, 197, 94, 0.2)', color: 'var(--accent-green)', border: '1px solid rgba(34, 197, 94, 0.3)' }}
+                    >
+                        📊
+                    </button>
+                    <button
                         onClick={handleExportPDF}
                         className="text-xs px-3 py-2 rounded-lg font-bold"
                         style={{ background: 'rgba(168, 85, 247, 0.2)', color: 'var(--accent-purple)', border: '1px solid rgba(168, 85, 247, 0.3)' }}
@@ -649,6 +658,11 @@ export default function GamePage({ params }: { params: Promise<{ id: string }> }
                         </div>
                     </div>
                 </div>
+            )}
+
+            {/* スコアシート全画面表示 */}
+            {showScoreSheet && game && (
+                <ScoreSheet game={game} onClose={() => setShowScoreSheet(false)} />
             )}
 
             {/* 確認モーダル（window.confirm() の代替） */}
